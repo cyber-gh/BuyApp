@@ -1,5 +1,6 @@
 package com.personal.buyapp.ui.login.ui.login
 
+import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.annotation.StringRes
@@ -11,10 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.LoggedInUser
@@ -40,6 +43,8 @@ class LoginFragment : Fragment() {
             ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
         login.setOnClickListener {
+            val inputMethodManager = context!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
             val log = username.text.toString()
             val pass = password.text.toString()
             loginViewModel.loginUser(log, pass, UserType.SELLER)

@@ -10,6 +10,7 @@
         android:id="@+id/start_receipt_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:text="Start a new receipt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -37,9 +37,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:boxCornerRadiusBottomEnd="20dp"
+
         app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
+
         app:boxCornerRadiusTopStart="20dp">
         android:background="@null"
         <com.google.android.material.textfield.TextInputEditText
@@ -62,9 +62,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
-        app:boxCornerRadiusBottomEnd="20dp"
+
         app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
+
         app:boxCornerRadiusTopStart="20dp"
         android:background="@null"
         >
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:background="@null"
-            android:inputType="text" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView

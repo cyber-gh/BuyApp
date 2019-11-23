@@ -1,5 +1,10 @@
 package com.personal.buyapp
 
+import android.content.Intent
+import android.nfc.NdefMessage
+import android.nfc.NdefRecord
+import android.nfc.NfcAdapter
+import android.nfc.NfcEvent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -14,14 +19,27 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.personal.buyapp.ifrastructure.Router
+import com.personal.buyapp.ifrastructure.infoAlert
+import com.personal.buyapp.utils.log
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private var nfcAdapter: NfcAdapter? = null
+
+    private fun initialize() {
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this).apply {
+            setNdefPushMessageCallback( null, this@MainActivity)
+        }
+
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Router.acitivity = this
+        initialize()
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -51,5 +69,43 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun createNdefMessage(p0: NfcEvent?): NdefMessage {
+        val packageName = applicationContext.packageName
+        val payload = "isendthis"
+        val mimeType = "application/$packageName.payload"
+        log(" creating ndef message")
+
+        return NdefMessage(
+            arrayOf<NdefRecord>(
+                NdefRecord(
+                    NdefRecord.TNF_MIME_MEDIA,
+                    mimeType.toByteArray(Charsets.UTF_8),
+                    ByteArray(0),
+                    payload.toByteArray(Charsets.UTF_8)
+                ),
+                NdefRecord.createApplicationRecord(packageName)
+            )
+        )
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        //setIntent(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when (intent.action) {
+            Intent.ACTION_SEND -> {
+                val str = intent.getStringExtra(Intent.EXTRA_TEXT)
+                infoAlert("Sending for fuck sake --  " + str)
+            }
+            NfcAdapter.ACTION_NDEF_DISCOVERED -> {
+                val messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+                val payload = (messages[0] as NdefMessage).records[0].payload
+                infoAlert("Receiving for fuck sake -- " + String(payload))
+            }
+        }
     }
 }

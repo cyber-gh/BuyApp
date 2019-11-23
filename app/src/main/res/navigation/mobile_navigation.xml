@@ -64,5 +64,16 @@
         android:id="@+id/registerProductFragment"
         android:name="com.personal.buyapp.ui.warehouse.RegisterProductFragment"
         android:label="fragment_register_product"
-        tools:layout="@layout/fragment_register_product" />
+        tools:layout="@layout/fragment_register_product" >
+        <action
+            android:id="@+id/action_registerProductFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:popUpTo="@id/seller_home_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.personal.buyapp.ui.warehouse.ProductDetailsFragment"
+        android:label="product_details_fragment"
+        tools:layout="@layout/product_details_fragment" />
 </navigation>

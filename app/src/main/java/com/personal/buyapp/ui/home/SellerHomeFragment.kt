@@ -39,7 +39,5 @@ class SellerHomeFragment : Fragment() {
         register_product.setOnClickListener {
             findNavController().navigate(R.id.action_seller_home_fragment_to_registerProductFragment)
         }
-
-
     }
 }

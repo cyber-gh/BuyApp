@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 
 import com.personal.buyapp.R
+import com.personal.buyapp.utils.NavigationArgumentsHack
 import com.personal.buyapp.utils.toastl
 import kotlinx.android.synthetic.main.fragment_register_product.*
 
@@ -37,7 +39,9 @@ class RegisterProductFragment : Fragment() {
 
         codeScanner.decodeCallback = DecodeCallback {
             activity!!.runOnUiThread {
-                toastl("Code received " + it.text)
+                NavigationArgumentsHack.registerProductBarcode = it.text
+                findNavController().navigate(R.id.action_registerProductFragment_to_productDetailsFragment)
+
             }
         }
 

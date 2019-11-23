@@ -11,6 +11,9 @@ import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resumeWithException
+
+ class EmptyResponse(val description: String = "Test") : Throwable()
 
 interface APIService {
 
@@ -19,6 +22,15 @@ interface APIService {
 
     @POST("/api/login")
     fun loginUser(@Body loginRequest: LoginRequest) : Call<LoggedInUser>
+
+    @POST("/api/product/add")
+    fun addProduct(@Body productParams: ProductRegisterParams) : Call<Void>
+
+    @POST("/api/product/get")
+    fun getProduct(@Body getProductParams: GetProductParams) : Call<WarehouseProduct>
+
+    @POST("/api/receipt/create")
+    fun getReceipt(@Body receiptParams: ReceiptParams) : Call<ReceiptData>
 
 }
 
@@ -55,6 +67,8 @@ object RetrofitClient {
 }
 
 object AppClient {
+
+
     suspend fun loginUser(login: String, password: String, userType: UserType = UserType.SELLER) = suspendCancellableCoroutine<LoggedInUser> {
         APIUtils.apiService.loginUser(LoginRequest(login, password, userType.ordinal)).enqueue( object :
             Callback<LoggedInUser> {
@@ -63,9 +77,67 @@ object AppClient {
             }
 
             override fun onResponse(call: Call<LoggedInUser>, response: Response<LoggedInUser>) {
-                it.resumeWith(Result.success(response.body()!!))
+                if (response.code() == 200) {
+                    it.resumeWith(Result.success(response.body()!!))
+                } else {
+                    it.resumeWithException(EmptyResponse("Wrong Username or password"))
+                }
             }
 
         })
     }
+
+    suspend fun registerProduct(productParams: ProductRegisterParams) = suspendCancellableCoroutine<EmptyResponse> {
+        APIUtils.apiService.addProduct(productParams).enqueue( object :
+            Callback<Void> {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                it.resumeWith(Result.success(EmptyResponse("Unable to register product")))
+            }
+
+        })
+    }
+
+    suspend fun getProduct(token: String, id: String) = suspendCancellableCoroutine<WarehouseProduct> {
+        APIUtils.apiService.getProduct(GetProductParams(token, id)).enqueue( object :
+            Callback<WarehouseProduct> {
+            override fun onFailure(call: Call<WarehouseProduct>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<WarehouseProduct>, response: Response<WarehouseProduct>) {
+                if (response.code() == 200) {
+                    it.resumeWith(Result.success(response.body()!!))
+                }else {
+                    it.resumeWithException(EmptyResponse("Product not found"))
+                }
+            }
+
+        })
+    }
+
+    suspend fun getReceipt(token: String, productList : List<ProductWrapper>) = suspendCancellableCoroutine<ReceiptData> {
+
+        val receiptParams = ReceiptParams(token, productList.map { ProductMinimal(it.warehouseProduct.id, it.quantity.toDouble()) })
+
+        APIUtils.apiService.getReceipt(receiptParams).enqueue( object :
+            Callback<ReceiptData> {
+            override fun onFailure(call: Call<ReceiptData>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<ReceiptData>, response: Response<ReceiptData>) {
+                if (response.code() == 200) {
+                    it.resumeWith(Result.success(response.body()!!))
+                }else {
+                    it.resumeWithException(EmptyResponse("Can't create receipt"))
+                }
+            }
+
+        })
+    }
+
 }

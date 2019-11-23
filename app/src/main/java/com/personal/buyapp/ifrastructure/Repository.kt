@@ -9,4 +9,8 @@ object Repository {
     var userTypeLiveData = MutableLiveData<UserType>()
 
     var currentReceipt: ReceiptData? = null
+
+    fun refreshNfc() {
+        userTypeLiveData.postValue(userType)
+    }
 }

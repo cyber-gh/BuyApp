@@ -41,6 +41,8 @@ class ReceiptFragment : Fragment() {
         receipt_ready_btn.setOnClickListener {
             if (Repository.userType == UserType.SELLER) {
                 infoAlert("The receipt is ready, approach the buyer device to send the nfc payment data")
+                Repository.refreshNfc()
+
             } else {
                 //TODO
                 //confirm payment

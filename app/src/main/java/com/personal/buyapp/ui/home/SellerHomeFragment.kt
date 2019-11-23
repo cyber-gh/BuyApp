@@ -11,8 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.personal.buyapp.R
+import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment() {
+class SellerHomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -34,5 +35,11 @@ class HomeFragment : Fragment() {
         view.findViewById<View>(R.id.start_receipt_button).setOnClickListener {
             findNavController().navigate(R.id.action_seller_home_fragment_to_scanProductFragment)
         }
+
+        register_product.setOnClickListener {
+            findNavController().navigate(R.id.action_seller_home_fragment_to_registerProductFragment)
+        }
+
+
     }
 }

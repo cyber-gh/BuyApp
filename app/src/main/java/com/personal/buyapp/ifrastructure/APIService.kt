@@ -1,7 +1,10 @@
 package com.personal.buyapp.ifrastructure
 
+import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.OkHttpClient
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -13,6 +16,9 @@ interface APIService {
 
     @POST("/api/test")
     fun postUser(@Body userRequest: TestResponse ) : Call<TestResponse>
+
+    @POST("/api/login")
+    fun loginUser(@Body loginRequest: LoginRequest) : Call<LoggedInUser>
 
 }
 
@@ -45,5 +51,21 @@ object RetrofitClient {
 
         return retrofit
 
+    }
+}
+
+object AppClient {
+    suspend fun loginUser(login: String, password: String, userType: UserType = UserType.SELLER) = suspendCancellableCoroutine<LoggedInUser> {
+        APIUtils.apiService.loginUser(LoginRequest(login, password, userType.ordinal)).enqueue( object :
+            Callback<LoggedInUser> {
+            override fun onFailure(call: Call<LoggedInUser>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<LoggedInUser>, response: Response<LoggedInUser>) {
+                it.resumeWith(Result.success(response.body()!!))
+            }
+
+        })
     }
 }

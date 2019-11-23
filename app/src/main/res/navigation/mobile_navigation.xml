@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/seller_home_fragment"
-        android:name="com.personal.buyapp.ui.home.HomeFragment"
+        android:name="com.personal.buyapp.ui.home.SellerHomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_seller_home_fragment_to_scanProductFragment"
             app:destination="@id/scanProductFragment" />
+        <action
+            android:id="@+id/action_seller_home_fragment_to_registerProductFragment"
+            app:destination="@id/registerProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -49,7 +52,7 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_nav_home"
+            android:id="@+id/action_loginFragment_to_seller_home_fragment"
             app:destination="@id/seller_home_fragment" />
     </fragment>
     <fragment
@@ -57,4 +60,9 @@
         android:name="com.personal.buyapp.ui.receipt.ScanProductFragment"
         android:label="fragment_scan_product"
         tools:layout="@layout/fragment_scan_product" />
+    <fragment
+        android:id="@+id/registerProductFragment"
+        android:name="com.personal.buyapp.ui.warehouse.RegisterProductFragment"
+        android:label="fragment_register_product"
+        tools:layout="@layout/fragment_register_product" />
 </navigation>

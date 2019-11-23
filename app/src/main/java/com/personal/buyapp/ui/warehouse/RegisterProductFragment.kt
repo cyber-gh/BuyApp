@@ -1,4 +1,4 @@
-package com.personal.buyapp.ui.receipt
+package com.personal.buyapp.ui.warehouse
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,9 +10,10 @@ import com.budiyev.android.codescanner.DecodeCallback
 
 import com.personal.buyapp.R
 import com.personal.buyapp.utils.toastl
-import kotlinx.android.synthetic.main.fragment_scan_product.*
+import kotlinx.android.synthetic.main.fragment_register_product.*
 
-class ScanProductFragment : Fragment() {
+
+class RegisterProductFragment : Fragment() {
 
     private lateinit var codeScanner: CodeScanner
 
@@ -26,7 +27,7 @@ class ScanProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan_product, container, false)
+        return inflater.inflate(R.layout.fragment_register_product, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,16 +44,6 @@ class ScanProductFragment : Fragment() {
         scanner_view.setOnClickListener {
             codeScanner.startPreview()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        codeScanner.startPreview()
-    }
-
-    override fun onPause() {
-        codeScanner.releaseResources()
-        super.onPause()
     }
 
 }

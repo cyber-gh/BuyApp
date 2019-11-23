@@ -62,7 +62,11 @@
         android:id="@+id/scanProductFragment"
         android:name="com.personal.buyapp.ui.receipt.ScanProductFragment"
         android:label="fragment_scan_product"
-        tools:layout="@layout/fragment_scan_product" />
+        tools:layout="@layout/fragment_scan_product" >
+        <action
+            android:id="@+id/action_scanProductFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerProductFragment"
         android:name="com.personal.buyapp.ui.warehouse.RegisterProductFragment"
@@ -72,7 +76,7 @@
             android:id="@+id/action_registerProductFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment"
             app:popUpTo="@id/seller_home_fragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -84,4 +88,9 @@
         android:name="com.personal.buyapp.ui.buyer.BuyerHomeFragment"
         android:label="buyer_home_fragment"
         tools:layout="@layout/buyer_home_fragment" />
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="com.personal.buyapp.ui.receipt.ReceiptFragment"
+        android:label="receipt_fragment"
+        tools:layout="@layout/receipt_fragment" />
 </navigation>

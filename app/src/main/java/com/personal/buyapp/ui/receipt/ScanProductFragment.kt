@@ -14,6 +14,7 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.ProductWrapper
 import com.personal.buyapp.ifrastructure.getTotalPrice
+import com.personal.buyapp.utils.NavigationArgumentsHack
 import com.personal.buyapp.utils.toastl
 import kotlinx.android.synthetic.main.fragment_scan_product.*
 import kotlinx.android.synthetic.main.receipt_product_item_view.view.*
@@ -70,6 +71,12 @@ class ScanProductFragment : Fragment() {
         scanProductViewModel.shouldGoBack.observe(viewLifecycleOwner, Observer {
             if (it) findNavController().popBackStack()
         })
+
+        scanProductViewModel.receiptDataLive.observe(viewLifecycleOwner, Observer {
+            NavigationArgumentsHack.receiptData = it
+            findNavController().navigate(R.id.action_scanProductFragment_to_receiptFragment)
+        })
+
     }
 
     private fun populateList() {
@@ -98,4 +105,12 @@ class ScanProductFragment : Fragment() {
         super.onPause()
     }
 
+}
+
+fun View.completeWithProduct(newProduct: ProductWrapper) {
+
+    return ;
+    this.quantity_and_price.text = "${newProduct.quantity} x ${newProduct.warehouseProduct.price} RON"
+    this.product_name_lbl.text = newProduct.warehouseProduct.name
+    this.product_total_price.text = "${newProduct.getTotalPrice()} RON"
 }

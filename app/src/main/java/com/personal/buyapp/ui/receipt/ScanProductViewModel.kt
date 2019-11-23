@@ -20,6 +20,9 @@ class ScanProductViewModel: ViewModel() {
     var shouldGoBack = MutableLiveData<Boolean>()
 
 
+    var receiptDataLive = MutableLiveData<ReceiptData>()
+
+
     fun getProductById(id: String) {
 
         viewModelScope.launch(execptionHandler) {
@@ -52,7 +55,7 @@ class ScanProductViewModel: ViewModel() {
             val receipt = AppClient.createReceipt(Repository.token, productList)
             infoAlert("Receipt created")
             Repository.currentReceipt = receipt
-            shouldGoBack.postValue(true)
+            receiptDataLive.postValue(receipt)
 
         }
     }

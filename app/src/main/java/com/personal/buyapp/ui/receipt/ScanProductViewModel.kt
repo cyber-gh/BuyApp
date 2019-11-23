@@ -1,12 +1,10 @@
 package com.personal.buyapp.ui.receipt
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.personal.buyapp.ifrastructure.*
 import com.personal.buyapp.utils.execptionHandler
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 
@@ -18,6 +16,8 @@ class ScanProductViewModel: ViewModel() {
     val productListMutableLiveData = MutableLiveData<List<ProductWrapper>>()
 
     var productList = mutableListOf<ProductWrapper>()
+
+    var shouldGoBack = MutableLiveData<Boolean>()
 
 
     fun getProductById(id: String) {
@@ -49,8 +49,10 @@ class ScanProductViewModel: ViewModel() {
 
     fun getReceipt() {
         viewModelScope.launch(execptionHandler) {
-            val receipt = AppClient.getReceipt(Repository.token, productList)
+            val receipt = AppClient.createReceipt(Repository.token, productList)
             infoAlert("Receipt created")
+            Repository.currentReceipt = receipt
+            shouldGoBack.postValue(true)
 
         }
     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 
@@ -65,6 +66,10 @@ class ScanProductFragment : Fragment() {
         generate_receipt.setOnClickListener {
             scanProductViewModel.getReceipt()
         }
+
+        scanProductViewModel.shouldGoBack.observe(viewLifecycleOwner, Observer {
+            if (it) findNavController().popBackStack()
+        })
     }
 
     private fun populateList() {

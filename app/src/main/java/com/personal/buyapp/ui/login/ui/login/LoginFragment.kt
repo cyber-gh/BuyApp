@@ -3,26 +3,16 @@ package com.personal.buyapp.ui.login.ui.login
 import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.personal.buyapp.R
-import com.personal.buyapp.ifrastructure.LoggedInUser
+import com.personal.buyapp.ifrastructure.Repository
 import com.personal.buyapp.ifrastructure.UserType
-import com.personal.buyapp.ui.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
@@ -41,8 +31,20 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel =
             ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        if (Repository.token != "") {
+            findNavController().navigate(R.id.action_loginFragment_to_buyerHomeFragment)
+            return
+        }
+        login_buyer.setOnClickListener {
+            val inputMethodManager = context!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            val log = username.text.toString()
+            val pass = password.text.toString()
+            loginViewModel.loginUser(log, pass, UserType.BUYER)
+        }
 
-        login.setOnClickListener {
+
+        login_seller.setOnClickListener {
             val inputMethodManager = context!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
             val log = username.text.toString()
@@ -50,9 +52,17 @@ class LoginFragment : Fragment() {
             loginViewModel.loginUser(log, pass, UserType.SELLER)
         }
 
+
         loginViewModel.loggedInUserLiveData.observe(viewLifecycleOwner, Observer {
             if (it.profile!!.toInt() == UserType.SELLER.ordinal) {
+                Repository.userType = UserType.SELLER
+                Repository.userTypeLiveData.postValue(UserType.SELLER)
                 findNavController().navigate(R.id.action_loginFragment_to_seller_home_fragment)
+
+            } else {
+                Repository.userType = UserType.BUYER
+                Repository.userTypeLiveData.postValue(UserType.BUYER)
+                findNavController().navigate(R.id.action_loginFragment_to_buyerHomeFragment)
             }
         })
 

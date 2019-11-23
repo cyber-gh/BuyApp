@@ -8,7 +8,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resumeWithException
@@ -30,7 +29,9 @@ interface APIService {
     fun getProduct(@Body getProductParams: GetProductParams) : Call<WarehouseProduct>
 
     @POST("/api/receipt/create")
-    fun getReceipt(@Body receiptParams: ReceiptParams) : Call<ReceiptData>
+    fun createReceipt(@Body receiptParams: ReceiptParams) : Call<ReceiptData>
+
+
 
 }
 
@@ -119,11 +120,11 @@ object AppClient {
         })
     }
 
-    suspend fun getReceipt(token: String, productList : List<ProductWrapper>) = suspendCancellableCoroutine<ReceiptData> {
+    suspend fun createReceipt(token: String, productList : List<ProductWrapper>) = suspendCancellableCoroutine<ReceiptData> {
 
         val receiptParams = ReceiptParams(token, productList.map { ProductMinimal(it.warehouseProduct.id, it.quantity.toDouble()) })
 
-        APIUtils.apiService.getReceipt(receiptParams).enqueue( object :
+        APIUtils.apiService.createReceipt(receiptParams).enqueue( object :
             Callback<ReceiptData> {
             override fun onFailure(call: Call<ReceiptData>, t: Throwable) {
                 it.resumeWith(Result.failure(t))

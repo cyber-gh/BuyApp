@@ -18,7 +18,10 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import com.personal.buyapp.ifrastructure.Repository
 import com.personal.buyapp.ifrastructure.Router
+import com.personal.buyapp.ifrastructure.UserType
 import com.personal.buyapp.ifrastructure.infoAlert
 import com.personal.buyapp.utils.log
 
@@ -34,6 +37,23 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
         }
 
 
+        // OMG
+        Repository.userTypeLiveData.observe(this, Observer {
+            if (it == UserType.BUYER) {
+                nfcAdapter = NfcAdapter.getDefaultAdapter(this).apply {
+                    setNdefPushMessageCallback( null, this@MainActivity)
+                }
+            } else {
+                if (Repository.currentReceipt != null) {
+                    nfcAdapter = NfcAdapter.getDefaultAdapter(this).apply {
+                        setNdefPushMessageCallback(this@MainActivity, this@MainActivity)
+                    }
+                }
+            }
+        })
+        // OMG
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,18 +64,15 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.seller_home_fragment, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+                R.id.seller_home_fragment, R.id.nav_gallery, R.id.nav_slideshow, R.id.buyerHomeFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

@@ -75,7 +75,7 @@ class BuyerHomeFragment : Fragment() {
 
         username_lbl_1.text = Repository.userName
 
-        CompleteActionDialog.show(activity!!.supportFragmentManager)
+
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 
 import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.*
+import com.personal.buyapp.utils.CompleteActionDialog
 import com.personal.buyapp.utils.NavigationArgumentsHack
 import kotlinx.android.synthetic.main.receipt_fragment.*
 import kotlinx.android.synthetic.main.receipt_product_item_view.view.*
@@ -57,6 +58,7 @@ class ReceiptFragment : Fragment() {
         viewModel.paymentIsFinished.observe(viewLifecycleOwner, Observer {
             findNavController().popBackStack()
             Repository.updateBalance(viewModel.generatedreceipt.value?.total)
+            CompleteActionDialog.show(activity!!.supportFragmentManager)
         })
 
     }

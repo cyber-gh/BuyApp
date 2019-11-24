@@ -37,6 +37,9 @@ class RegisterProductFragment : Fragment() {
 
         codeScanner = CodeScanner(context!!, scanner_view)
 
+        codeScanner.isAutoFocusEnabled = true
+        codeScanner.isTouchFocusEnabled = true
+        codeScanner.startPreview()
         codeScanner.decodeCallback = DecodeCallback {
             activity!!.runOnUiThread {
                 NavigationArgumentsHack.registerProductBarcode = it.text
@@ -47,6 +50,8 @@ class RegisterProductFragment : Fragment() {
 
         scanner_view.setOnClickListener {
             codeScanner.startPreview()
+            codeScanner.isAutoFocusEnabled = true
+            codeScanner.isTouchFocusEnabled = true
         }
     }
 

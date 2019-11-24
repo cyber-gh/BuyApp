@@ -48,6 +48,10 @@ class ScanProductFragment : Fragment() {
             }
         }
 
+        codeScanner.isAutoFocusEnabled = true
+        codeScanner.isTouchFocusEnabled = true
+
+
         scanProductViewModel.warehouseProductMutable.observe(viewLifecycleOwner, Observer {
             toastl(" Product found: " + it.name)
             val newProduct = ProductWrapper(it)
@@ -59,6 +63,8 @@ class ScanProductFragment : Fragment() {
 
         scanner_view.setOnClickListener {
             codeScanner.startPreview()
+            codeScanner.isAutoFocusEnabled = true
+            codeScanner.isTouchFocusEnabled = true
         }
 
 

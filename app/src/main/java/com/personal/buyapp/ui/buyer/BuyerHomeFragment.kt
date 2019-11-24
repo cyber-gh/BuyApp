@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.Repository
 import com.personal.buyapp.ifrastructure.UserType
+import com.personal.buyapp.utils.CompleteActionDialog
 import kotlinx.android.synthetic.main.buyer_home_fragment.*
 import kotlinx.android.synthetic.main.buyer_home_fragment.avatar_image
 import kotlinx.android.synthetic.main.buyer_home_fragment.halfview
@@ -73,6 +74,8 @@ class BuyerHomeFragment : Fragment() {
         })
 
         username_lbl_1.text = Repository.userName
+
+        CompleteActionDialog.show(activity!!.supportFragmentManager)
     }
 
 }

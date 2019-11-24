@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.*
@@ -35,13 +36,14 @@ class ReceiptFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ReceiptViewModel::class.java)
 //        viewModel.receiptData = NavigationArgumentsHack.receiptData!!
         viewModel.receiptId = NavigationArgumentsHack.receiptId
-
+        Repository.followRedirect = false
         viewModel.getGeneratedReceipt()
 
         receipt_ready_btn.setOnClickListener {
             if (Repository.userType == UserType.SELLER) {
                 infoAlert("The receipt is ready, approach the buyer device to send the nfc payment data")
                 Repository.refreshNfc()
+                viewModel.checkForStatusComplete()
 
             } else {
                 viewModel.confirmPayment()
@@ -50,6 +52,10 @@ class ReceiptFragment : Fragment() {
 
         viewModel.generatedreceipt.observe(viewLifecycleOwner, Observer {
             populateData(it)
+        })
+
+        viewModel.paymentIsFinished.observe(viewLifecycleOwner, Observer {
+            findNavController().popBackStack()
         })
 
     }

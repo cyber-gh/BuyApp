@@ -14,6 +14,10 @@ import kotlin.coroutines.resumeWithException
 
 class EmptyResponse(val description: String = "Test") : Throwable()
 
+var ipAddress = "35.180.115.205"
+//var ipAddress = "192.168.1.147"
+
+
 interface APIService {
 
     @POST("/api/test")
@@ -40,7 +44,7 @@ interface APIService {
 }
 
 object APIUtils {
-    val BASE_URL = "http://192.168.1.147:8080"
+    val BASE_URL = "http://${ipAddress}:8080"
 
     val apiService : APIService
         get() = RetrofitClient.getClient(BASE_URL)!!.create(APIService::class.java)

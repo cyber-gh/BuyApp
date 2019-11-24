@@ -127,6 +127,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
 
                 var receiptId = str.split(".")[0]
                 var sellerId = str.split(".")[1]
+                Repository.followRedirect = true
                 Repository.sellerUserName = sellerId
                 NavigationArgumentsHack.receiptId = receiptId.toLong()
                 Repository.sellDaataready.postValue(true)

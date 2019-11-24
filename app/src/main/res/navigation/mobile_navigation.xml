@@ -65,7 +65,9 @@
         tools:layout="@layout/fragment_scan_product" >
         <action
             android:id="@+id/action_scanProductFragment_to_receiptFragment"
-            app:destination="@id/receiptFragment" />
+            app:destination="@id/receiptFragment"
+            app:popUpTo="@id/seller_home_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/registerProductFragment"

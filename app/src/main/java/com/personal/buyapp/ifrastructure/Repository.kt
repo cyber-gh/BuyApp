@@ -9,6 +9,8 @@ object Repository {
     var userType: UserType = UserType.SELLER
     var userTypeLiveData = MutableLiveData<UserType>()
 
+    var followRedirect = true
+
     var currentReceipt: ReceiptData? = null
 
     fun refreshNfc() {

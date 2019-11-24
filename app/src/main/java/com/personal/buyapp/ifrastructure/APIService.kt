@@ -31,7 +31,8 @@ interface APIService {
     @POST("/api/receipt/create")
     fun createReceipt(@Body receiptParams: ReceiptParams) : Call<ReceiptData>
 
-
+    @POST("/api/receipt/get")
+    fun getGeneratedReceipt(@Body getProductParams: GetGeneratedReceiptParams) : Call<GeneratedReceipt>
 
 }
 
@@ -131,6 +132,26 @@ object AppClient {
             }
 
             override fun onResponse(call: Call<ReceiptData>, response: Response<ReceiptData>) {
+                if (response.code() == 200) {
+                    it.resumeWith(Result.success(response.body()!!))
+                }else {
+                    it.resumeWithException(EmptyResponse("Can't create receipt"))
+                }
+            }
+
+        })
+    }
+
+    suspend fun getGeneratedReceipt(token: String, id: Long) = suspendCancellableCoroutine<GeneratedReceipt> {
+        val params = GetGeneratedReceiptParams(token, id)
+
+        APIUtils.apiService.getGeneratedReceipt(params).enqueue( object :
+            Callback<GeneratedReceipt> {
+            override fun onFailure(call: Call<GeneratedReceipt>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<GeneratedReceipt>, response: Response<GeneratedReceipt>) {
                 if (response.code() == 200) {
                     it.resumeWith(Result.success(response.body()!!))
                 }else {

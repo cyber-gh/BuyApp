@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.personal.buyapp.R
-import com.personal.buyapp.ifrastructure.Repository
-import com.personal.buyapp.ifrastructure.UserType
-import com.personal.buyapp.ifrastructure.infoAlert
+import com.personal.buyapp.ifrastructure.*
 import com.personal.buyapp.utils.NavigationArgumentsHack
 import kotlinx.android.synthetic.main.receipt_fragment.*
 import kotlinx.android.synthetic.main.receipt_product_item_view.view.*
@@ -36,7 +35,7 @@ class ReceiptFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ReceiptViewModel::class.java)
         viewModel.receiptData = NavigationArgumentsHack.receiptData!!
 
-        populateLIst()
+        viewModel.getGeneratedReceipt()
 
         receipt_ready_btn.setOnClickListener {
             if (Repository.userType == UserType.SELLER) {
@@ -49,13 +48,23 @@ class ReceiptFragment : Fragment() {
             }
         }
 
+        viewModel.generatedreceipt.observe(viewLifecycleOwner, Observer {
+            populateData(it)
+        })
+
     }
 
-    private fun populateLIst() {
+    private fun populateData(generatedReceipt: GeneratedReceipt) {
+        receipt_total_value.text = "${generatedReceipt.total} RON"
+
         receipt_product_list_view.removeAllViews()
-        viewModel.receiptData.products.forEach {
+
+        generatedReceipt.products.forEach {newProduct ->
             val productView = layoutInflater.inflate(R.layout.receipt_product_item_view, null)
-            productView.product_name_lbl.text = it.id
+            productView.quantity_and_price.text = "${newProduct.quantity} x ${newProduct.price} RON"
+            productView.product_name_lbl.text = newProduct.name
+            productView.product_total_price.text = "${newProduct.price * newProduct.quantity} RON"
+
             receipt_product_list_view.addView(productView)
         }
 

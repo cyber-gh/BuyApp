@@ -67,3 +67,32 @@ data class ReceiptData (
     val status: Long
 )
 
+
+@Serializable
+data class GeneratedReceipt (
+    val id: Long,
+    val products: List<ReceiptProduct>,
+    val total: Long,
+    val status: Long
+)
+
+@Serializable
+data class ReceiptProduct (
+    val id: String,
+    val name: String,
+    val price: Long,
+
+    val quantity: Int,
+
+    @SerialName("total_available")
+    val totalAvailable: Double,
+
+    @SerialName("total_sold")
+    val totalSold: Double
+)
+
+@Serializable
+data class GetGeneratedReceiptParams (
+    val token: String,
+    val id: Long
+)

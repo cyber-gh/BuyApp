@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
                 NavigationArgumentsHack.receiptId = receiptId.toLong()
 
 
+
             }
         }
     }

@@ -68,6 +68,8 @@ class ReceiptFragment : Fragment() {
 
         receipt_product_list_view.removeAllViews()
 
+        if(generatedReceipt.products.isEmpty()) return
+
         generatedReceipt.products.forEach {newProduct ->
             val productView = layoutInflater.inflate(R.layout.receipt_product_item_view, null)
             productView.quantity_and_price.text = "${newProduct.quantity} x ${newProduct.price} RON"

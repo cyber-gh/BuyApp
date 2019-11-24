@@ -68,7 +68,7 @@ class SellerHomeFragment : Fragment() {
         }
 
         Repository.currentBalance.observe(viewLifecycleOwner, Observer { it ->
-            balance_value_lbl.text = it.toString()
+            balance_value_lbl.text = it.toString() + ".${Repository.currentDecimal}"
         })
 
         username_lbl_2.text = Repository.userName

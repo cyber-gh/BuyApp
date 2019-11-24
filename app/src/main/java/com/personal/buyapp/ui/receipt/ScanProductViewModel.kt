@@ -53,6 +53,8 @@ class ScanProductViewModel: ViewModel() {
     fun getReceipt() {
         viewModelScope.launch(execptionHandler) {
             val receipt = AppClient.createReceipt(Repository.token, productList)
+
+            if (receipt.products.isEmpty()) return@launch
             infoAlert("Receipt created")
             Repository.currentReceipt = receipt
             receiptDataLive.postValue(receipt)

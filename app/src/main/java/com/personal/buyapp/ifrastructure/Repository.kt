@@ -24,6 +24,8 @@ object Repository {
 
     var currentBalance = MutableLiveData<Int>().apply { value = (1500..4500).random() }
 
+    var currentDecimal = (0..99).random()
+
     //MArk bullshit below
     var sellerUserName: String = ""
 

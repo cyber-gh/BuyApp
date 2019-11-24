@@ -14,8 +14,8 @@ import kotlin.coroutines.resumeWithException
 
 class EmptyResponse(val description: String = "Test") : Throwable()
 
-var ipAddress = "35.180.115.205"
-//var ipAddress = "192.168.1.147"
+//var ipAddress = "35.180.115.205"
+var ipAddress = "192.168.1.147"
 
 
 interface APIService {

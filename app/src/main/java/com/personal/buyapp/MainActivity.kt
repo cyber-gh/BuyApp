@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
             NfcAdapter.ACTION_NDEF_DISCOVERED -> {
                 val messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
                 val payload = (messages[0] as NdefMessage).records[0].payload
-                infoAlert("Receiving for fuck sake -- " + String(payload))
+                //infoAlert("Receiving for fuck sake -- " + String(payload))
                 val str = String(payload)
 
                 var receiptId = str.split(".")[0]

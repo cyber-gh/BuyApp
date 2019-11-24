@@ -56,12 +56,13 @@ class ReceiptFragment : Fragment() {
 
         viewModel.paymentIsFinished.observe(viewLifecycleOwner, Observer {
             findNavController().popBackStack()
+            Repository.updateBalance(viewModel.generatedreceipt.value?.total)
         })
 
     }
 
     private fun populateData(generatedReceipt: GeneratedReceipt) {
-        receipt_total_value.text = "${generatedReceipt.total} RON"
+        receipt_total_value.text = "RON ${generatedReceipt.total}"
 
         receipt_product_list_view.removeAllViews()
 
@@ -73,6 +74,8 @@ class ReceiptFragment : Fragment() {
 
             receipt_product_list_view.addView(productView)
         }
+
+        receipt_id_lbl.text = generatedReceipt.id.toString()
 
 
     }

@@ -68,6 +68,11 @@ class BuyerHomeFragment : Fragment() {
 
             }
         }
+        Repository.currentBalance.observe(viewLifecycleOwner, Observer {
+            account_balance_lbl.text = it.toString()
+        })
+
+        username_lbl_1.text = Repository.userName
     }
 
 }

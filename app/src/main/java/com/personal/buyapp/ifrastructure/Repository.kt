@@ -11,6 +11,8 @@ object Repository {
 
     var followRedirect = true
 
+
+
     var currentReceipt: ReceiptData? = null
 
     fun refreshNfc() {
@@ -20,9 +22,24 @@ object Repository {
     fun generateMessage() = "${currentReceipt!!.id}.${userName}"
 
 
+    var currentBalance = MutableLiveData<Int>().apply { value = (1500..4500).random() }
 
     //MArk bullshit below
     var sellerUserName: String = ""
 
     var sellDaataready = MutableLiveData<Boolean>()
+
+
+    fun updateBalance(diffValue: Long?) {
+        val currentBalance = currentBalance.value
+        if (diffValue == null || currentBalance == null) return;
+
+        val newValue = if (userType == UserType.BUYER) {
+            currentBalance - diffValue
+        } else {
+            currentBalance + diffValue
+        }
+
+        this.currentBalance.postValue(newValue.toInt())
+    }
 }

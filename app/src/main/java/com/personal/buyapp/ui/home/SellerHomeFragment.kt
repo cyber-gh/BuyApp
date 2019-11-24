@@ -63,9 +63,16 @@ class SellerHomeFragment : Fragment() {
                 balance_currency_lbl.isVisible = false
                 create_receipt.isVisible = true
 
-                account_balance_container.setBackgroundResource(R.drawable.cirlce_background_filled_border)
+//                account_balance_container.setBackgroundResource(R.drawable.cirlcle_background_filled)
             }
         }
+
+        Repository.currentBalance.observe(viewLifecycleOwner, Observer { it ->
+            balance_value_lbl.text = it.toString()
+        })
+
+        username_lbl_2.text = Repository.userName
+
     }
 
     override fun onResume() {

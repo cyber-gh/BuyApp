@@ -29,7 +29,7 @@ class ReceiptViewModel : ViewModel() {
     fun confirmPayment() {
         viewModelScope.launch(execptionHandler) {
             val status = AppClient.confirmPayment(Repository.token, receiptId, Repository.sellerUserName, Repository.userName)
-            infoAlert("Request done")
+//            infoAlert("Request done")
             paymentIsFinished.postValue(true)
         }
     }

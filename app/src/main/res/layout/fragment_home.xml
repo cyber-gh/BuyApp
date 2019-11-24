@@ -25,8 +25,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/account_balance_container"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="370dp"
+        android:layout_height="370dp"
 
         android:background="@drawable/cirlce_background_filled_border"
         android:translationY="220dp"

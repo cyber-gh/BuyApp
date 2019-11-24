@@ -12,7 +12,7 @@ import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resumeWithException
 
- class EmptyResponse(val description: String = "Test") : Throwable()
+class EmptyResponse(val description: String = "Test") : Throwable()
 
 interface APIService {
 
@@ -33,6 +33,9 @@ interface APIService {
 
     @POST("/api/receipt/get")
     fun getGeneratedReceipt(@Body getProductParams: GetGeneratedReceiptParams) : Call<GeneratedReceipt>
+
+    @POST("/api/receipt/confirm")
+    fun confirmPayment(@Body confirmParams: PaymentConfirmParams) : Call<ResponseStatus>
 
 }
 
@@ -161,5 +164,26 @@ object AppClient {
 
         })
     }
+
+    suspend fun confirmPayment(token: String, id: Long, userFrom: String, userTo: String ) = suspendCancellableCoroutine<ResponseStatus> {
+        val params = PaymentConfirmParams(token, id, userFrom, userTo)
+
+        APIUtils.apiService.confirmPayment(params).enqueue( object :
+            Callback<ResponseStatus> {
+            override fun onFailure(call: Call<ResponseStatus>, t: Throwable) {
+                it.resumeWith(Result.failure(t))
+            }
+
+            override fun onResponse(call: Call<ResponseStatus>, response: Response<ResponseStatus>) {
+                if (response.code() == 200) {
+                    it.resumeWith(Result.success(response.body()!!))
+                }else {
+                    it.resumeWithException(EmptyResponse("Can't create receipt"))
+                }
+            }
+
+        })
+    }
+
 
 }

@@ -33,6 +33,16 @@ class BuyerHomeFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(BuyerHomeViewModel::class.java)
         // TODO: Use the ViewModel
 
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (Repository.sellerUserName != "") {
+            findNavController().navigate(R.id.action_buyerHomeFragment_to_receiptFragment)
+        }
+
         Repository.sellDaataready.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(R.id.action_buyerHomeFragment_to_receiptFragment)
         })

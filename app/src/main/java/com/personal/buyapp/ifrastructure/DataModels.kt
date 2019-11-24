@@ -96,3 +96,17 @@ data class GetGeneratedReceiptParams (
     val token: String,
     val id: Long
 )
+
+@Serializable
+data class PaymentConfirmParams (
+    val token: String,
+    val id: Long,
+    val from: String,
+    val to: String
+)
+
+@Serializable
+data class ResponseStatus(
+    val status: Boolean
+)
+

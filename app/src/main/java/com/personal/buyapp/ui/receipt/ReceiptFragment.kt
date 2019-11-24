@@ -44,8 +44,7 @@ class ReceiptFragment : Fragment() {
                 Repository.refreshNfc()
 
             } else {
-                //TODO
-                //confirm payment
+                viewModel.confirmPayment()
             }
         }
 

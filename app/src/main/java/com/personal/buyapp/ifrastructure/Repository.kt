@@ -17,6 +17,9 @@ object Repository {
 
     fun generateMessage() = "${currentReceipt!!.id}.${userName}"
 
+
+
+    //MArk bullshit below
     var sellerUserName: String = ""
 
     var sellDaataready = MutableLiveData<Boolean>()

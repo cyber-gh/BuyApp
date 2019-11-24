@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.personal.buyapp.R
 import com.personal.buyapp.ifrastructure.APIUtils
 import com.personal.buyapp.ifrastructure.TestResponse
 import retrofit2.Call
@@ -30,5 +31,20 @@ class HomeViewModel : ViewModel() {
             }
 
         })
+    }
+
+    var halfViewColor : Int = R.color.colorPrimary
+    var rootColor : Int = android.R.color.white
+
+    fun swapState() {
+        val tmp = halfViewColor
+        halfViewColor = rootColor
+        rootColor = tmp
+    }
+
+    fun resetState() {
+         halfViewColor  = R.color.colorPrimary
+         rootColor = android.R.color.white
+
     }
 }

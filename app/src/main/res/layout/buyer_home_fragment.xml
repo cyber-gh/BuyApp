@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.buyer.BuyerHomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/halfview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="300dp"
@@ -18,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -30,22 +31,23 @@
         android:background="@drawable/circle_backgrond"
         android:translationY="220dp"
         app:cornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/halfview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/balance_currency_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="RON"
             android:textSize="50sp"
-            app:layout_constraintEnd_toEndOf="@+id/materialTextView"
-            app:layout_constraintStart_toStartOf="@+id/materialTextView"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+            app:layout_constraintEnd_toEndOf="@+id/account_balance_lbl"
+            app:layout_constraintStart_toStartOf="@+id/account_balance_lbl"
+            app:layout_constraintTop_toBottomOf="@+id/account_balance_lbl" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
+            android:id="@+id/account_balance_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -69,6 +71,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/avatar_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"

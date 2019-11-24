@@ -7,4 +7,5 @@ object NavigationArgumentsHack {
     var registerProductBarcode: String = ""
 
     var receiptData: ReceiptData? = null
+    var receiptId: Long = -1
 }

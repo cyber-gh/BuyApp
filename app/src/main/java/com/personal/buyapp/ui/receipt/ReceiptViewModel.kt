@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 
 class ReceiptViewModel : ViewModel() {
     lateinit var receiptData: ReceiptData
+    var receiptId : Long = 0
 
     val generatedreceipt = MutableLiveData<GeneratedReceipt>()
 
     fun getGeneratedReceipt() {
         viewModelScope.launch (execptionHandler){
-            val receipt = AppClient.getGeneratedReceipt(Repository.token, receiptData.id)
+            val receipt = AppClient.getGeneratedReceipt(Repository.token, receiptId)
 
             generatedreceipt.postValue(receipt)
         }

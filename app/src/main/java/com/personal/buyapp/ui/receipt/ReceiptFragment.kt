@@ -33,7 +33,8 @@ class ReceiptFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(ReceiptViewModel::class.java)
-        viewModel.receiptData = NavigationArgumentsHack.receiptData!!
+//        viewModel.receiptData = NavigationArgumentsHack.receiptData!!
+        viewModel.receiptId = NavigationArgumentsHack.receiptId
 
         viewModel.getGeneratedReceipt()
 

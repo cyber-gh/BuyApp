@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
 
 
         loginViewModel.loggedInUserLiveData.observe(viewLifecycleOwner, Observer {
+            Repository.userName = it.username!!
             if (it.profile!!.toInt() == UserType.SELLER.ordinal) {
                 Repository.userType = UserType.SELLER
                 Repository.userTypeLiveData.postValue(UserType.SELLER)

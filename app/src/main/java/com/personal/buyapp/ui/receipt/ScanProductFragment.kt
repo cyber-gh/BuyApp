@@ -73,7 +73,7 @@ class ScanProductFragment : Fragment() {
         })
 
         scanProductViewModel.receiptDataLive.observe(viewLifecycleOwner, Observer {
-            NavigationArgumentsHack.receiptData = it
+            NavigationArgumentsHack.receiptId = it.id
             findNavController().navigate(R.id.action_scanProductFragment_to_receiptFragment)
         })
 
@@ -105,12 +105,4 @@ class ScanProductFragment : Fragment() {
         super.onPause()
     }
 
-}
-
-fun View.completeWithProduct(newProduct: ProductWrapper) {
-
-    return ;
-    this.quantity_and_price.text = "${newProduct.quantity} x ${newProduct.warehouseProduct.price} RON"
-    this.product_name_lbl.text = newProduct.warehouseProduct.name
-    this.product_total_price.text = "${newProduct.getTotalPrice()} RON"
 }

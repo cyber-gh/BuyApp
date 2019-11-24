@@ -23,6 +23,7 @@ import com.personal.buyapp.ifrastructure.Repository
 import com.personal.buyapp.ifrastructure.Router
 import com.personal.buyapp.ifrastructure.UserType
 import com.personal.buyapp.ifrastructure.infoAlert
+import com.personal.buyapp.utils.NavigationArgumentsHack
 import com.personal.buyapp.utils.log
 
 class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
 
     override fun createNdefMessage(p0: NfcEvent?): NdefMessage {
         val packageName = applicationContext.packageName
-        val payload = "isendthis"
+        val payload = Repository.generateMessage()
         val mimeType = "application/$packageName.payload"
         log(" creating ndef message")
 
@@ -122,6 +123,14 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
                 val messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
                 val payload = (messages[0] as NdefMessage).records[0].payload
                 infoAlert("Receiving for fuck sake -- " + String(payload))
+                val str = String(payload)
+
+                var receiptId = str.split(".")[0]
+                var sellerId = str.split(".")[1]
+                Repository.sellerUserName = sellerId
+                NavigationArgumentsHack.receiptId = receiptId.toLong()
+
+
             }
         }
     }

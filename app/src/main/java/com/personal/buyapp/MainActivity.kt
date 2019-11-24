@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.seller_home_fragment, R.id.nav_gallery, R.id.nav_slideshow, R.id.buyerHomeFragment), drawerLayout)
+                R.id.seller_home_fragment,  R.id.buyerHomeFragment,  R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

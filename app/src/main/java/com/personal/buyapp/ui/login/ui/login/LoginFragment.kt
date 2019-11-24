@@ -31,7 +31,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel =
             ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        if (Repository.token != "" || Repository.userType == UserType.BUYER) {
+        if (Repository.token != "" && Repository.userType == UserType.BUYER) {
             findNavController().navigate(R.id.action_loginFragment_to_buyerHomeFragment)
             return
         }
@@ -67,6 +67,10 @@ class LoginFragment : Fragment() {
             }
         })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
 }
